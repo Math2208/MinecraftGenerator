@@ -1,7 +1,10 @@
 package main;
 
-import core.world.Tile;
+import core.coordinates.CoordinateConverter;
+import core.coordinates.TileCoordinateConverter;
 import core.world.TileSystem;
+import core.world.WorldTile;
+import core.world.WorldTileManager;
 
 public class Main {
 
@@ -17,16 +20,48 @@ public class Main {
                         0.01
                 );
 
-        double latitude = 47.3950;
-        double longitude = 0.6860;
-
-        Tile tile =
-                tileSystem.getTile(
-                        latitude,
-                        longitude
+        CoordinateConverter converter =
+                new CoordinateConverter(
+                        latitudeOrigine,
+                        longitudeOrigine
                 );
 
-        System.out.println("Tuile trouvée :");
-        System.out.println(tile);
+        TileCoordinateConverter tileConverter =
+                new TileCoordinateConverter(converter);
+
+        WorldTileManager manager =
+                new WorldTileManager(
+                        tileSystem,
+                        tileConverter
+                );
+
+        WorldTile tile1 =
+                manager.getTile(47.3950, 0.6860);
+
+        WorldTile tile2 =
+                manager.getTile(47.4050, 0.6960);
+
+        WorldTile tile3 =
+                manager.getTile(47.4150, 0.7060);
+
+        System.out.println("Tuile 1 :");
+        System.out.println(tile1);
+
+        System.out.println();
+
+        System.out.println("Tuile 2 :");
+        System.out.println(tile2);
+
+        System.out.println();
+
+        System.out.println("Tuile 3 :");
+        System.out.println(tile3);
+
+        System.out.println();
+
+        System.out.println(
+                "Nombre total de tuiles : "
+                        + manager.getTileCount()
+        );
     }
 }
